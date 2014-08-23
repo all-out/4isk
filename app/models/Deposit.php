@@ -2,11 +2,13 @@
 
 class Deposit extends \Eloquent {
 
-	// Add your validation rules here
-	public static $rules = [
-		// 'title' => 'required'
-	];
+    protected $table = 'deposits';
+    protected $guarded = array('*');
+    protected $hidden = array('*');
 
-	protected $guarded = array('*');
+    public function depositor()
+    {
+        return $this->belongsTo('Character', 'depositor_id', 'id');
+    }
 
 }

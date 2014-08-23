@@ -13,8 +13,8 @@
 
 Route::get('/', function()
 {
-	return View::make('hello');
+    return View::make('hello');
 });
 
-Route::get('deposits/download', 'DepositsController@saveNewDeposits');
+Route::resource('characters', 'CharactersController');
 Route::resource('deposits', 'DepositsController');

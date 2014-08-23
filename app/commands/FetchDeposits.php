@@ -9,6 +9,7 @@ class FetchDeposits extends Command {
     protected $nonDeposits = 0;
     protected $existingDeposits = 0;
     protected $newDeposits = 0;
+    protected $newCharacters = 0;
     protected $iskAdded = 0;
 
 	/**
@@ -42,7 +43,7 @@ class FetchDeposits extends Command {
 	 */
 	public function fire()
 	{
-		$this->info($this->saveNewDeposits());
+        $this->saveNewDeposits();
 	}
 
     /**
@@ -79,7 +80,6 @@ class FetchDeposits extends Command {
         // Setup PhealNG and make a call to the WalletJournal endpoint to grab some entries.
         $pheal = new Pheal(Config::get('phealng.keyID'), Config::get('phealng.vCode'));
         $query = $pheal->corpScope->WalletJournal(array(
-            'rowCount' => 3,
             'fromID' => $lastRefID
         ));
 
@@ -92,13 +92,21 @@ class FetchDeposits extends Command {
         {
             // Store all refIDs, even those that aren't related Player Donations.
             array_push($refIDs, $entry->refID);
-            // Only check Player Donations
+            // Only check Player Donations.
             if ($entry->refTypeID == 10)
             {
+                // If the Character doesn't already exist in our storage, let's add it.
+                $newCharacter = Character::firstOrNew(array('id' => $entry->ownerID1, 'name' => $entry->ownerName1));
+                if (empty($newCharacter['original']))
+                {
+                    if ($newCharacter->save()) $this->newCharacters++;
+                }
+
                 // If the refID exists in storage, ignore that entry. Otherwise, save it.
                 $newDeposit = Deposit::firstOrNew(array('ref_id' => $entry->refID));
                 if (empty($newDeposit['original']))
                 {
+                    $newDeposit->depositor_id = $entry->ownerID1;
                     $newDeposit->amount = $entry->amount;
                     $newDeposit->reason = trim($entry->reason);
                     $newDeposit->sent_at = $entry->date;
@@ -114,16 +122,18 @@ class FetchDeposits extends Command {
         }
 
         // Recurse through the function, using a new starting point each time. When the API stops returning entries min
-        // will throw an ErrorException. Instead of returning the Exception, we return an int reporting how many new
-        // records were saved to the storage.
+        // will throw an ErrorException. Instead of returning the Exception, we return a report and save it to the log.
         try {
             $this->saveNewDeposits(min($refIDs));
         }
         catch (Exception $e) {
-            echo "Unrelated entries ignored: " . $this->nonDeposits . "\n";
-            echo "Existing Deposits ignored: " . $this->existingDeposits . "\n";
-            echo "New Deposits saved: " . $this->newDeposits . "\n";
-            echo "Total deposited since last fetch: " . $this->iskAdded . " isk\n";
+            $output = "Unrelated entries ignored: " . $this->nonDeposits . "\n";
+            $output .= "Existing Deposits ignored: " . $this->existingDeposits . "\n";
+            $output .= "New Deposits saved: " . $this->newDeposits . "\n";
+            $output .= "New (inactive) Characters added: " . $this->newCharacters . "\n";
+            $output .= "Total deposited since last fetch: " . $this->iskAdded . " isk\n";
+            Log::info($output);
+            echo $output;
         }
     }
 
