@@ -1,10 +1,12 @@
 <?php
 
-use Illuminate\Console\Command;
+use Indatus\Dispatcher\Scheduling\ScheduledCommand;
+use Indatus\Dispatcher\Scheduling\Schedulable;
+use Indatus\Dispatcher\Drivers\Cron\Scheduler;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-class FetchDeposits extends Command {
+class FetchDeposits extends ScheduledCommand {
 
     protected $nonDeposits = 0;
     protected $existingDeposits = 0;
@@ -36,6 +38,18 @@ class FetchDeposits extends Command {
 		parent::__construct();
 	}
 
+    /**
+     * When a command should run
+     *
+     * @param Scheduler $scheduler
+     * @return \Indatus\Dispatcher\Scheduling\Schedulable
+     */
+    public function schedule(Schedulable $scheduler)
+    {
+
+        return $scheduler->minutes('0,30');
+    }
+
 	/**
 	 * Execute the console command.
 	 *
@@ -45,30 +59,6 @@ class FetchDeposits extends Command {
 	{
         $this->saveNewDeposits();
 	}
-
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
-    {
-        return array(
-
-        );
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return array(
-            array('example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null),
-        );
-    }
 
     /**
      * Check WalletJournal for new deposits and save to storage.
