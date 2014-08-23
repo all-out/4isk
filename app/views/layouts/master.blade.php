@@ -7,17 +7,13 @@
     <meta charset="utf-8">
     <title>4isk</title>
 </head>
-
 <body>
-<div class="container">
-    <div>
-        <h1>{{ link_to('/', '4isk') }}</h1>
-        <p class="lead">Eve Online Gaming Platform</p>
-    </div>
-    <div class="row">
-        <div class="col-sm-12 blog-main">@yield('content')</div>
-    </div>
-</div>
-</body>
 
+    @include('layouts.nav')
+
+    <div class="container">
+        @yield('content')
+    </div>
+
+</body>
 </html>

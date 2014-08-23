@@ -9,7 +9,7 @@ class DepositsController extends \BaseController {
 	 */
 	public function index()
 	{
-		$deposits = Deposit::all();
+		$deposits = Deposit::with('depositor')->get();
 
 		return View::make('deposits.index', compact('deposits'));
 	}
@@ -52,6 +52,7 @@ class DepositsController extends \BaseController {
 	public function show($id)
 	{
 		$deposit = Deposit::findOrFail($id);
+        $deposit->load('depositor');
 
 		return View::make('deposits.show', compact('deposit'));
 	}

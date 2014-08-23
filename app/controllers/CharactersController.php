@@ -9,7 +9,7 @@ class CharactersController extends \BaseController {
      */
     public function index()
     {
-        $characters = Character::all();
+        $characters = Character::with('deposits')->get();
 
         return View::make('characters.index', compact('characters'));
     }
@@ -52,6 +52,7 @@ class CharactersController extends \BaseController {
     public function show($id)
     {
         $character = Character::findOrFail($id);
+        $character->load('deposits');
 
         return View::make('characters.show', compact('character'));
     }

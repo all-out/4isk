@@ -86,27 +86,29 @@ class FetchDeposits extends ScheduledCommand {
             if ($entry->refTypeID == 10)
             {
                 // If the Character doesn't already exist in our storage, let's add it.
-                $newCharacter = Character::firstOrNew(array('id' => $entry->ownerID1, 'name' => $entry->ownerName1));
-                if (empty($newCharacter['original']))
+                $character = Character::firstOrNew(array('id' => $entry->ownerID1, 'name' => $entry->ownerName1));
+                if (empty($character['original']))
                 {
-                    if ($newCharacter->save()) $this->newCharacters++;
+                    $this->newCharacters++;
                 }
 
                 // If the refID exists in storage, ignore that entry. Otherwise, save it.
-                $newDeposit = Deposit::firstOrNew(array('ref_id' => $entry->refID));
-                if (empty($newDeposit['original']))
+                $deposit = Deposit::firstOrNew(array('ref_id' => $entry->refID));
+                if (empty($deposit['original']))
                 {
-                    $newDeposit->depositor_id = $entry->ownerID1;
-                    $newDeposit->amount = $entry->amount;
-                    $newDeposit->reason = trim($entry->reason);
-                    $newDeposit->sent_at = $entry->date;
-                    if ($newDeposit->save())
+                    $deposit->depositor_id = $entry->ownerID1;
+                    $deposit->amount = $entry->amount;
+                    $deposit->reason = trim($entry->reason);
+                    $deposit->sent_at = $entry->date;
+                    // Now that we know if the Deposit is new or not, we can se the Character's updated balance.
+                    $character->balance = $character->balance + $entry->amount;
+                    if ($character->save() && $deposit->save())
                     {
                         $this->newDeposits++;
                         $this->iskAdded += $entry->amount;
                     }
                 }
-                else if (!empty($newDeposit['original'])) $this->existingDeposits++;
+                else if (!empty($deposit['original'])) $this->existingDeposits++;
             }
             else $this->nonDeposits++;
         }
