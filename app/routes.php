@@ -15,3 +15,6 @@ Route::get('/', function()
 {
 	return View::make('hello');
 });
+
+Route::get('deposits/download', 'DepositsController@saveNewDeposits');
+Route::resource('deposits', 'DepositsController');

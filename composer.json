@@ -7,6 +7,9 @@
 		"laravel/framework": "4.2.*",
 		"3rdpartyeve/phealng": "1.2.*"
 	},
+    "require-dev": {
+        "way/generators": "2.6.1"
+    },
 	"autoload": {
 		"classmap": [
 			"app/commands",
