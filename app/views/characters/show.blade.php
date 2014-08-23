@@ -13,7 +13,7 @@
             <dt>Deposits made</dt>
             <dd>{{ $character->deposits->count() }}</dd>
             <dt>Balance</dt>
-            <dd>{{{ $character->balance }}} isk</dd>
+            <dd>{{{ $character->balance }}}</dd>
             <dt>Active?</dt>
             <dd>{{{ $character->active }}}</dd>
             <dt>Created at</dt>
@@ -46,7 +46,7 @@
                 <tr>
                     <td>{{{ $deposit->id }}}</td>
                     <td>{{{ $deposit->ref_id }}}</td>
-                    <td>{{{ $deposit->amount }}} isk</td>
+                    <td>{{{ $deposit->amount }}}</td>
                     <td>{{{ $deposit->reason }}}</td>
                     <td>{{{ $deposit->sent_at }}}</td>
                     <td>{{{ $deposit->created_at }}}</td>

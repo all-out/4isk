@@ -5,14 +5,23 @@ use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
-class Character extends Eloquent implements UserInterface, RemindableInterface {
+class Character extends \Eloquent implements UserInterface, RemindableInterface {
 
     use UserTrait, RemindableTrait;
 
     protected $table = 'characters';
-    protected $fillable = array('id', 'name', 'password');
+    protected $fillable = array('name', 'password');
     protected $hidden = array('id', 'password');
-    public static $rules = array();
+
+    public static $rules = array(
+        'name' => 'required|min:4|max:32',
+        'password' => 'required|min:4|max:32'
+    );
+
+    public function getBalanceAttribute($value)
+    {
+        return number_format($value, 2) . ' isk';
+    }
 
     public function deposits()
     {

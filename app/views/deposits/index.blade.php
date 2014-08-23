@@ -24,7 +24,7 @@
                             <td>{{{ $deposit->id }}}</td>
                             <td>{{{ $deposit->ref_id }}}</td>
                             <td><a href="/characters/{{{ $deposit->depositor->id }}}">{{{ $deposit->depositor->name }}}</a></td>
-                            <td>{{{ $deposit->amount }}} isk</td>
+                            <td>{{{ $deposit->amount }}}</td>
                             <td>{{{ $deposit->reason }}}</td>
                             <td>{{{ $deposit->sent_at }}}</td>
                             <td>{{{ $deposit->created_at }}}</td>

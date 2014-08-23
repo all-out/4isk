@@ -1,0 +1,1 @@
+<div style="width:100%;background:red;color:white;padding:10px;margin:0 0 10px;">{{{ $error }}}</div>

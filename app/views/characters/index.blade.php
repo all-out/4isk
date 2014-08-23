@@ -21,7 +21,7 @@
                 <tr>
                     <td>{{{ $character->id }}}</td>
                     <td>{{{ $character->name }}}</td>
-                    <td>{{{ $character->balance }}} isk</td>
+                    <td>{{{ $character->balance }}}</td>
                     <td>{{ $character->deposits->count() }}</td>
                     <td>{{{ $character->active }}}</td>
                     <td>

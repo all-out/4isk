@@ -1,7 +1,7 @@
 {
-	"name": "4isk/4isk",
+	"name": "FourIsk/FourIsk",
 	"description": "Eve Online ISK gaming boilerplate web application.",
-	"keywords": ["laravel", "eve", "eve online", "4isk", "isk", "phealng", "gaming", "gambling"],
+	"keywords": ["laravel", "eve", "eve online", "FourIsk", "isk", "phealng", "gaming", "gambling"],
 	"license": "MIT",
 	"require": {
 		"laravel/framework": "4.2.*",

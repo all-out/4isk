@@ -21,7 +21,49 @@ class CharactersController extends \BaseController {
      */
     public function create()
     {
-        return View::make('characters.create');
+        return View::make('characters.register');
+    }
+
+    /**
+     * Decide whether to update an existing character, or create a new one.
+     *
+     * @return Response
+     */
+    public function register()
+    {
+        $validator = Validator::make($data = Input::only('name', 'password'), Character::$rules);
+
+        if ($validator->fails())
+        {
+            return Redirect::back()->withErrors($validator)->withInput();
+        }
+
+        $pheal = new Pheal(Config::get('phealng.keyID'), Config::get('phealng.vCode'));
+        $query = $pheal->eveScope->CharacterID(array(
+            'names' => $data['name']
+        ));
+
+        foreach ($query->characters as $character) $data['characterID'] = $character->characterID;
+        if ($data['characterID'])
+        {
+            $character = Character::firstOrNew(array('name' => Input::get('name')));
+            if (!$character->active)
+            {
+                $character->id = $data['characterID'];
+                $character->name = $data['name'];
+                $character->password = Hash::make($data['password']);
+                $character->active = 1;
+                if ($character->save()) return Redirect::route('characters.index')->isSuccessful();
+            }
+            else
+            {
+                return Redirect::back()->withErrors(array('name' => 'A character with this name is already registered.'))->withInput();
+            }
+        }
+        else
+        {
+            return Redirect::back()->withErrors(array('name' => 'No character with this name could be found.'))->withInput();
+        }
     }
 
     /**

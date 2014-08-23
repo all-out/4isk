@@ -20,14 +20,14 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="https://image.eveonline.com/Character/778665323_32.jpg" width="24" height="24" />
-                        Logged In Name
+                        <img src="https://image.eveonline.com/Character/_32.jpg" width="24" height="24" />
+                        Name
                         <span class="caret"></span>
                     </a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
+                    <ul class="dropdown-menu"
+                        role="menu">
+                        <li><a href="/login">Login</a></li>
+                        <li><a href="/register">Register</a></li>
                         <li class="divider"></li>
                         <li><a href="#">Logout</a></li>
                     </ul>

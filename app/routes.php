@@ -16,5 +16,13 @@ Route::get('/', function()
     return View::make('hello');
 });
 
+Route::get('login', 'SessionsController@create');
+Route::get('logout', 'SessionsController@destroy');
+
+Route::get('register', 'CharactersController@create');
+Route::post('register', array('as' => 'characters.register', 'uses' => 'CharactersController@register'));
 Route::resource('characters', 'CharactersController');
+
 Route::resource('deposits', 'DepositsController');
+
+Route::resource('sessions', 'SessionsController');

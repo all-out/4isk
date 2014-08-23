@@ -19,6 +19,7 @@ class CreateCharactersTable extends Migration {
             $table->string('password', 32)->nullable();
             $table->decimal('balance', 14, 2)->default(0.00);
             $table->boolean('active')->default(false);
+            $table->rememberToken();
             $table->timestamps();
 		});
 	}

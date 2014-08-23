@@ -68,6 +68,7 @@ class FetchDeposits extends ScheduledCommand {
     protected function saveNewDeposits($lastRefID = null)
     {
         // Setup PhealNG and make a call to the WalletJournal endpoint to grab some entries.
+        Pheal\Core\Config::getInstance()->cache = new Pheal\Cache\FileStorage(app_path() . '/storage/cache/pheal/');
         $pheal = new Pheal(Config::get('phealng.keyID'), Config::get('phealng.vCode'));
         $query = $pheal->corpScope->WalletJournal(array(
             'fromID' => $lastRefID

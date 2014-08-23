@@ -9,7 +9,11 @@
 </head>
 <body>
 
-    @include('layouts.nav')
+    @include('partials.nav')
+
+    @foreach ($errors->all() as $error)
+        @include('partials.error', array('error' => $error))
+    @endforeach
 
     <div class="container">
         @yield('content')
