@@ -28,11 +28,11 @@ class CharactersController extends \BaseController {
      * Decide whether to update an existing character, or create a new one.
      *
      * @return Response
+     * TODO: Automatically create a new session for the new user so they don't have to enter their credentials again
      */
     public function register()
     {
         $validator = Validator::make($data = Input::only('name', 'password'), Character::$rules);
-
         if ($validator->fails())
         {
             return Redirect::back()->withErrors($validator)->withInput();
@@ -53,11 +53,11 @@ class CharactersController extends \BaseController {
                 $character->name = $data['name'];
                 $character->password = Hash::make($data['password']);
                 $character->active = 1;
-                if ($character->save()) return Redirect::route('characters.index')->isSuccessful();
+                if ($character->save()) return Redirect::route('login');
             }
             else
             {
-                return Redirect::back()->withErrors(array('name' => 'A character with this name is already registered.'))->withInput();
+                return Redirect::back()->withErrors(array('name' => 'This character is already registered.'))->withInput();
             }
         }
         else
@@ -74,7 +74,6 @@ class CharactersController extends \BaseController {
     public function store()
     {
         $validator = Validator::make($data = Input::all(), Character::$rules);
-
         if ($validator->fails())
         {
             return Redirect::back()->withErrors($validator)->withInput();
@@ -123,7 +122,6 @@ class CharactersController extends \BaseController {
         $character = Character::findOrFail($id);
 
         $validator = Validator::make($data = Input::all(), Character::$rules);
-
         if ($validator->fails())
         {
             return Redirect::back()->withErrors($validator)->withInput();

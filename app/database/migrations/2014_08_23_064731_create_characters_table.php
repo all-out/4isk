@@ -16,7 +16,7 @@ class CreateCharactersTable extends Migration {
 		{
             $table->integer('id')->primary()->unsigned();
             $table->string('name', 24)->unique();
-            $table->string('password', 32)->nullable();
+            $table->string('password', 70)->nullable();
             $table->decimal('balance', 14, 2)->default(0.00);
             $table->boolean('active')->default(false);
             $table->rememberToken();

@@ -18,11 +18,6 @@ class Character extends \Eloquent implements UserInterface, RemindableInterface 
         'password' => 'required|min:4|max:32'
     );
 
-    public function getBalanceAttribute($value)
-    {
-        return number_format($value, 2) . ' isk';
-    }
-
     public function deposits()
     {
         return $this->hasMany('Deposit', 'depositor_id');
