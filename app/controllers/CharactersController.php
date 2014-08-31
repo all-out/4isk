@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Class CharactersController
+ * TODO: Implement password
+ */
 class CharactersController extends \BaseController {
 
     /**
@@ -28,7 +32,6 @@ class CharactersController extends \BaseController {
      * Decide whether to update an existing character, or create a new one.
      *
      * @return Response
-     * TODO: Automatically create a new session for the new user so they don't have to enter their credentials again
      */
     public function register()
     {
@@ -53,7 +56,11 @@ class CharactersController extends \BaseController {
                 $character->name = $data['name'];
                 $character->password = Hash::make($data['password']);
                 $character->active = 1;
-                if ($character->save()) return Redirect::route('login');
+                if ($character->save())
+                {
+                    Auth::login($character);
+                    return Redirect::intended('/');
+                }
             }
             else
             {

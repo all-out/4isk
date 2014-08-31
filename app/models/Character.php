@@ -11,16 +11,39 @@ class Character extends \Eloquent implements UserInterface, RemindableInterface 
 
     protected $table = 'characters';
     protected $fillable = array('name', 'password');
-    protected $hidden = array('id', 'password');
+    protected $hidden = array('password');
 
-    public static $rules = array(
+    public static $rules = [
         'name' => 'required|min:4|max:32',
         'password' => 'required|min:4|max:32'
-    );
+    ];
 
+    /**
+     * Relationships
+     */
     public function deposits()
     {
         return $this->hasMany('Deposit', 'depositor_id');
     }
+
+//    public function gamesInitiated()
+//    {
+//        return $this->belongsTo('Game', 'initiator_id');
+//    }
+//
+//    public function gamesWon()
+//    {
+//        return $this->belongsTo('Game', 'winner_id');
+//    }
+//
+//    public function gamesPlayed()
+//    {
+//        $this->belongsToMany('Game');
+//    }
+
+//    public function payouts()
+//    {
+//        $this->hasMany('Payout');
+//    }
 
 }

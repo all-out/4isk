@@ -10,12 +10,10 @@
                     <div class="form-group">
                         {{ Form::label('name', 'Character Name:') }}
                         {{ Form::text('name', '', array('class' => 'form-control')) }}
-                        {{ $errors->register->first('name') }}
                     </div>
                     <div class="form-group">
                         {{ Form::label('password', 'Password:') }}
                         {{ Form::password('password', array('class' => 'form-control')) }}
-                        {{ $errors->register->first('password') }}
                     </div>
                     {{ Form::submit('Create Account', array('class' => 'btn btn-default')) }}
                 {{ Form::close() }}

@@ -9,7 +9,8 @@
         "indatus/dispatcher": "1.4.*"
 	},
     "require-dev": {
-        "way/generators": "2.6.1"
+        "way/generators": "2.6.1",
+        "fzaninotto/faker": "1.4.*"
     },
 	"autoload": {
 		"classmap": [
