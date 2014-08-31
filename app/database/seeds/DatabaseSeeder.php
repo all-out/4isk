@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder {
 
         Artisan::call('deposits:fetch');
         $this->call('CharactersTableSeeder');
+        $this->call('PrizeTypesTableSeeder');
         $this->call('GamesTableSeeder');
 	}
 

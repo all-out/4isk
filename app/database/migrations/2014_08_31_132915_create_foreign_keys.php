@@ -18,6 +18,9 @@ class CreateForeignKeys extends Migration {
                 ->onUpdate('restrict');
         });
         Schema::table('games', function(Blueprint $table) {
+            $table->foreign('prize_type_id')->references('id')->on('prize_types')
+                ->onDelete('restrict')
+                ->onUpdate('restrict');
             $table->foreign('initiator_id')->references('id')->on('characters')
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
@@ -38,6 +41,7 @@ class CreateForeignKeys extends Migration {
             $table->dropForeign('deposits_depositor_id_foreign');
         });
         Schema::table('games', function(Blueprint $table) {
+            $table->dropForeign('game_prize_type_id_foreign');
             $table->dropForeign('game_initiator_id_foreign');
             $table->dropForeign('game_winner_id_foreign');
         });
