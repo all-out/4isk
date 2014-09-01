@@ -26,20 +26,20 @@ class Character extends \Eloquent implements UserInterface, RemindableInterface 
         return $this->hasMany('Deposit', 'depositor_id');
     }
 
-//    public function gamesInitiated()
-//    {
-//        return $this->belongsTo('Game', 'initiator_id');
-//    }
-//
-//    public function gamesWon()
-//    {
-//        return $this->belongsTo('Game', 'winner_id');
-//    }
-//
-//    public function gamesPlayed()
-//    {
-//        $this->belongsToMany('Game');
-//    }
+    public function gamesInitiated()
+    {
+        return $this->belongsTo('Game', 'initiator_id');
+    }
+
+    public function gamesWon()
+    {
+        return $this->belongsTo('Game', 'winner_id');
+    }
+
+    public function gamesPlayed()
+    {
+        return $this->belongsToMany('Game', 'characters_games')->withPivot('seat')->withTimestamps();
+    }
 
 //    public function payouts()
 //    {

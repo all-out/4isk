@@ -27,7 +27,7 @@ class CreatePrizeTypesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('PrizeTypes');
+		Schema::drop('prize_types');
 	}
 
 }

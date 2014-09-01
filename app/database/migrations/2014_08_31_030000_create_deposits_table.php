@@ -21,6 +21,8 @@ class CreateDepositsTable extends Migration {
             $table->text('reason')->nullable();
             $table->timestamp('sent_at');
 			$table->timestamps();
+
+            $table->foreign('depositor_id')->references('id')->on('characters');
 		});
 	}
 

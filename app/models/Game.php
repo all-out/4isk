@@ -18,7 +18,7 @@ class Game extends \Eloquent {
     public function getPrizeAttribute()
     {
         if ($this->prizeType->name == 'isk') {
-            return ($this->buy_in * $this->seats) * 0.9;
+            return number_format(($this->buy_in * $this->seats) * 0.9, 2, '.', ',') . ' isk';
         }
         else {
             return $this->prizeType->name;
@@ -29,8 +29,12 @@ class Game extends \Eloquent {
      * Relationships
      *
      * TODO: Create Payout models, migrations and seeders
-     * TODO: Create many to many relationship representing all players in a game
      */
+    public function prizeType()
+    {
+        return $this->belongsTo('PrizeType', 'prize_type_id');
+    }
+
     public function initiator()
     {
         return $this->belongsTo('Character', 'initiator_id');
@@ -41,20 +45,17 @@ class Game extends \Eloquent {
         return $this->belongsTo('Character', 'winner_id');
     }
 
-    public function prizeType()
+    public function players()
     {
-        return $this->belongsTo('PrizeType', 'prize_type_id');
+        return $this->belongsToMany('Character', 'characters_games')->withPivot('seat')->withTimestamps();
     }
-//
+
 //    public function payout()
 //    {
 //        $this->belongsTo('Payout');
 //    }
-//
-//    public function players()
-//    {
-//        $this->belongsToMany('Character');
-//    }
+
+
 
 
 }

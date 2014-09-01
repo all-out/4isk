@@ -101,8 +101,10 @@ class CharactersController extends \BaseController {
     {
         $character = Character::findOrFail($id);
         $character->load('deposits');
+        $games['inProgress'] = $character->gamesPlayed()->get();
+        $games['played'] = $character->gamesPlayed()->onlyTrashed()->get();
 
-        return View::make('characters.show', compact('character'));
+        return View::make('characters.show', compact('character', 'games'));
     }
 
     /**

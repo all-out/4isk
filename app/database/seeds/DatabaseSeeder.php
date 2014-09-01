@@ -12,8 +12,8 @@ class DatabaseSeeder extends Seeder {
 		Eloquent::unguard();
 
         Artisan::call('deposits:fetch');
-        $this->call('CharactersTableSeeder');
         $this->call('PrizeTypesTableSeeder');
+        $this->call('CharactersTableSeeder');
         $this->call('GamesTableSeeder');
 	}
 

@@ -52,9 +52,15 @@ class GamesController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$game = Game::findOrFail($id);
+        $game = Game::withTrashed()->findOrfail($id);
+        $seats = new \Illuminate\Database\Eloquent\Collection;
+        foreach (range(1, $game->seats) as $index)
+        {
+            $player = $game->players()->where('seat', $index)->first();
+            $seats->add($player);
+        }
 
-		return View::make('games.show', compact('game'));
+        return View::make('games.show', compact('game', 'seats'));
 	}
 
 	/**
