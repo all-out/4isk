@@ -2,7 +2,6 @@
 
 /**
  * Class CharactersController
- * TODO: Implement password
  */
 class CharactersController extends \BaseController {
 

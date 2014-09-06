@@ -17,3 +17,5 @@ Route::resource('characters', 'CharactersController');
 Route::resource('deposits', 'DepositsController');
 
 Route::resource('games', 'GamesController');
+
+Route::resource('payouts', 'PayoutsController');

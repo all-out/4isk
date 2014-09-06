@@ -27,8 +27,6 @@ class Game extends \Eloquent {
 
     /**
      * Relationships
-     *
-     * TODO: Create Payout models, migrations and seeders
      */
     public function prizeType()
     {
@@ -50,12 +48,9 @@ class Game extends \Eloquent {
         return $this->belongsToMany('Character', 'characters_games')->withPivot('seat')->withTimestamps();
     }
 
-//    public function payout()
-//    {
-//        $this->belongsTo('Payout');
-//    }
-
-
-
+    public function payout()
+    {
+        return $this->belongsTo('Payout');
+    }
 
 }

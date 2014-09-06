@@ -15,8 +15,8 @@ class CreateDepositsTable extends Migration {
 		Schema::create('deposits', function(Blueprint $table)
 		{
             $table->increments('id');
-            $table->integer('depositor_id')->unsigned();
             $table->bigInteger('ref_id')->unsigned()->unique();
+            $table->integer('depositor_id')->unsigned();
             $table->decimal('amount', 14, 2)->unsigned();
             $table->text('reason')->nullable();
             $table->timestamp('sent_at');

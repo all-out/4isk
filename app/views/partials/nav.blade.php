@@ -17,6 +17,7 @@
                 <li><a href="/deposits">Deposits</a></li>
                 <li><a href="/characters">Characters</a></li>
                 <li><a href="/games">Games</a></li>
+                <li><a href="/payouts">Payouts</a></li>
             </ul>
             @if (Auth::check())
                 @include('partials.nav.auth')

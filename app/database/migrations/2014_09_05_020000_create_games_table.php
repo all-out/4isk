@@ -14,10 +14,11 @@ class CreateGamesTable extends Migration {
 	{
 		Schema::create('games', function(Blueprint $table)
 		{
-			$table->increments('id');
+            $table->increments('id');
             $table->integer('prize_type_id')->unsigned();
             $table->integer('initiator_id')->unsigned();
             $table->integer('winner_id')->unsigned()->nullable();
+            $table->integer('payout_id')->unsigned()->nullable();
             $table->smallInteger('seats')->unsigned();
             $table->decimal('buy_in', 14, 2)->unsigned();
             $table->softDeletes();
@@ -26,6 +27,7 @@ class CreateGamesTable extends Migration {
             $table->foreign('prize_type_id')->references('id')->on('prize_types');
             $table->foreign('initiator_id')->references('id')->on('characters');
             $table->foreign('winner_id')->references('id')->on('characters');
+            $table->foreign('payout_id')->references('id')->on('payouts');
 		});
 	}
 

@@ -41,9 +41,14 @@ class Character extends \Eloquent implements UserInterface, RemindableInterface 
         return $this->belongsToMany('Game', 'characters_games')->withPivot('seat')->withTimestamps();
     }
 
-//    public function payouts()
-//    {
-//        $this->hasMany('Payout');
-//    }
+    public function payouts()
+    {
+        $this->hasMany('Payout', 'winner_id');
+    }
+
+    public function fulfillments()
+    {
+        $this->hasMany('Payout', 'fulfiller_id');
+    }
 
 }

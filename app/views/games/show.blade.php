@@ -28,6 +28,13 @@
             <dd><a href="/characters/{{{ $game->winner->id }}}">{{{ $game->winner->name }}}</a></dd>
             <dt>Completed At</dt>
             <dd>{{{ $game->deleted_at }}}</dd>
+            <dt>Related Payout</dt>
+            <dd>
+                <a href="/payouts/{{{ $game->payout->id }}}">{{{ $game->payout->id }}}</a>
+                @if ($game->payout->fulfilled)
+                 / Fulfilled
+                @endif
+            </dd>
         </dl>
         @endif
     </div>

@@ -14,7 +14,7 @@ class CreateCharactersTable extends Migration {
 	{
 		Schema::create('characters', function(Blueprint $table)
 		{
-            $table->integer('id')->primary()->unsigned();
+            $table->increments('id');
             $table->string('name', 24)->unique();
             $table->string('password', 70)->nullable();
             $table->decimal('balance', 14, 2)->default(0.00);

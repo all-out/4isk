@@ -27,6 +27,29 @@ class GamesTableSeeder extends Seeder {
         return $players;
     }
 
+    public function createPayout($game)
+    {
+        $faker = Faker::create();
+        $characters = Character::all()->toArray();
+        if ($faker->boolean(80)) {
+            $character = $faker->randomElement($characters);
+            $fulfilled = true;
+        } else {
+            $character = null;
+            $fulfilled = false;
+        }
+
+        $payout = Payout::create([
+            'winner_id' => $game->winner_id,
+            'fulfiller_id' => $character['id'],
+            'fulfilled' => $fulfilled
+        ]);
+
+        $game->payout()->associate($payout);
+
+        return $payout;
+    }
+
 	public function run()
 	{
 		$faker = Faker::create();
@@ -48,6 +71,7 @@ class GamesTableSeeder extends Seeder {
                 'deleted_at' => new DateTime
             ]);
 
+            $this->createPayout($game);
             $this->putPlayersInSeats($game, $seats, $initiator, $winner);
         }
 
