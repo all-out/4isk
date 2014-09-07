@@ -10,7 +10,6 @@ class PayoutsController extends \BaseController {
 	public function index()
 	{
         $payouts = Payout::with('winner', 'fulfiller', 'games')->get();
-        dd($payouts);
 
 		return View::make('payouts.index', compact('payouts'));
 	}
@@ -52,7 +51,7 @@ class PayoutsController extends \BaseController {
 	 */
 	public function show($id)
 	{
-        $payout = Payout::with('winner', 'fulfiller')->find($id);
+        $payout = Payout::with('winner', 'fulfiller', 'games')->find($id);
 
         return View::make('payouts.show', compact('payout'));
 	}

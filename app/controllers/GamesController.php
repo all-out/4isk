@@ -53,7 +53,7 @@ class GamesController extends \BaseController {
 	public function show($id)
 	{
         $game = Game::withTrashed()->findOrfail($id);
-        dd($game->payout);
+
         $seats = new \Illuminate\Database\Eloquent\Collection;
         foreach (range(1, $game->seats) as $index)
         {

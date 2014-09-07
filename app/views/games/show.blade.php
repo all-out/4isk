@@ -30,9 +30,11 @@
             <dd>{{{ $game->deleted_at }}}</dd>
             <dt>Related Payout</dt>
             <dd>
-                <a href="/payouts/{{{ $game->payout->id }}}">{{{ $game->payout->id }}}</a>
-                @if ($game->payout->fulfilled)
-                 / Fulfilled
+                @if ($game->payout)
+                    <a href="/payouts/{{{ $game->payout->id }}}">{{{ $game->payout->id }}}</a>
+                    @if ($game->payout->fulfilled)
+                    <i class="glyphicon glyphicon-ok-sign" style="color: green;"></i>
+                    @endif
                 @endif
             </dd>
         </dl>

@@ -6,8 +6,6 @@ class GamesTableSeeder extends Seeder {
 
     public function putPlayersInSeats($game, $seats, $initiator, $winner = null)
     {
-        $players = [];
-
         // Add initiator
         $game->players()->attach($initiator['id'], ['seat' => 1]);
 
@@ -23,31 +21,26 @@ class GamesTableSeeder extends Seeder {
             $character = $faker->randomElement($characters);
             $game->players()->attach($character['id'], ['seat' => $i]);
         }
-
-        return $players;
     }
 
-    public function createPayout($game)
+    public function createPayout($game, $fulfilled)
     {
         $faker = Faker::create();
         $characters = Character::all()->toArray();
-        if ($faker->boolean(80)) {
+        if ($fulfilled) {
             $character = $faker->randomElement($characters);
-            $fulfilled = true;
         } else {
             $character = null;
-            $fulfilled = false;
         }
 
-        $payout = Payout::create([
-            'winner_id' => $game->winner_id,
-            'fulfiller_id' => $character['id'],
-            'fulfilled' => $fulfilled
-        ]);
+        $payout = new Payout;
+        $payout->winner_id = $game->winner_id;
+        $payout->fulfiller_id = $character['id'];
+        $payout->fulfilled = $fulfilled;
+        $payout->save();
 
         $game->payout()->associate($payout);
-
-        return $payout;
+        $game->save();
     }
 
 	public function run()
@@ -71,7 +64,8 @@ class GamesTableSeeder extends Seeder {
                 'deleted_at' => new DateTime
             ]);
 
-            $this->createPayout($game);
+            $fulfilled = ($index < 15 ? true : false);
+            $this->createPayout($game, $fulfilled);
             $this->putPlayersInSeats($game, $seats, $initiator, $winner);
         }
 

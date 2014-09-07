@@ -10,6 +10,25 @@ class Payout extends \Eloquent {
     ];
 
     /**
+     * Accessors
+     */
+    public function getPrizesAttribute()
+    {
+        $prizes['isk'] = 0;
+        $prizes['items'] = [];
+        foreach ($this->games as $game) {
+            if ($game->prizeType->name == 'isk') {
+                $prizes['isk'] += $game->prize;
+            }
+            else {
+                array_push($prizes['items'], $game->prize);
+            }
+            $prizes['isk'] = round($prizes['isk'], 2);
+        }
+        return $prizes;
+    }
+
+    /**
      * Relationships
      */
     public function winner()
@@ -24,7 +43,7 @@ class Payout extends \Eloquent {
 
     public function games()
     {
-        return $this->hasMany('Game');
+        return $this->hasMany('Game', 'payout_id')->withTrashed();
     }
 
 }

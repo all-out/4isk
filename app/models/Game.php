@@ -18,7 +18,7 @@ class Game extends \Eloquent {
     public function getPrizeAttribute()
     {
         if ($this->prizeType->name == 'isk') {
-            return number_format(($this->buy_in * $this->seats) * 0.9, 2, '.', ',') . ' isk';
+            return ($this->buy_in * $this->seats) * 0.9;
         }
         else {
             return $this->prizeType->name;
