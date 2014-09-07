@@ -41,7 +41,9 @@
                             @if($payout->fulfilled)
                             <i class="glyphicon glyphicon-ok-sign" style="color: green;"></i> <a href="/characters/{{{ $payout->fulfiller->id }}}">{{{ $payout->fulfiller->name }}}</a>
                             @else
-                            <a href="#" class="btn btn-default">Fulfill</a>
+                            {{ Form::open(['route' => ['payouts.fulfill', $payout->id], 'method' => 'PATCH']) }}
+                                {{ Form::submit('Fulfill', array('class' => 'btn btn-primary')) }}
+                            {{ Form::close() }}
                             @endif
                         </td>
                         <td>

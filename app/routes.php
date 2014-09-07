@@ -19,3 +19,4 @@ Route::resource('deposits', 'DepositsController');
 Route::resource('games', 'GamesController');
 
 Route::resource('payouts', 'PayoutsController');
+Route::patch('payouts/{id}/fulfill', ['as' => 'payouts.fulfill', 'uses' => 'PayoutsController@fulfill', 'before' => 'auth']);
