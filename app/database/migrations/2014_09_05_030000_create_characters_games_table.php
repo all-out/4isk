@@ -14,11 +14,12 @@ class CreateCharactersGamesTable extends Migration {
 	{
 		Schema::create('characters_games', function(Blueprint $table)
 		{
-            $table->increments('id');
             $table->integer('game_id')->unsigned();
             $table->smallInteger('seat')->unsigned();
 			$table->integer('character_id')->unsigned();
 			$table->timestamps();
+
+            $table->unique(['game_id', 'seat']);
 
             $table->foreign('character_id')->references('id')->on('characters');
             $table->foreign('game_id')->references('id')->on('games');

@@ -48,6 +48,34 @@ Route::filter('auth', function()
 	}
 });
 
+Route::filter('role', function($route, $request, $role)
+{
+    if (Auth::guest())
+    {
+        if (Request::ajax())
+        {
+            return Response::make('Unauthorized', 401);
+        }
+        else
+        {
+            Session::flash('warning', 'You must be logged in.');
+            return Redirect::guest('login');
+        }
+    }
+    else if (!Auth::user()->hasRole($role))
+    {
+        if (Request::ajax())
+        {
+            return Response::make('Unauthorized', 401);
+        }
+        else
+        {
+            Session::flash('warning', 'You do not have the required permissions.');
+            return Redirect::back();
+        }
+    }
+});
+
 
 Route::filter('auth.basic', function()
 {

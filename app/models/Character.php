@@ -19,8 +19,39 @@ class Character extends \Eloquent implements UserInterface, RemindableInterface 
     ];
 
     /**
+     * Methods
+     */
+    public function assignRole($role)
+    {
+        $this->roles()->attach($role);
+    }
+
+    public function revokeRole($role)
+    {
+        $this->roles()->detach($role);
+    }
+
+    public function hasRole($name)
+    {
+        foreach ($this->roles as $role)
+        {
+            if ($role->name == $name)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    /**
      * Relationships
      */
+    public function roles()
+    {
+        return $this->belongsToMany('Role', 'characters_roles');
+    }
+
     public function deposits()
     {
         return $this->hasMany('Deposit', 'depositor_id');

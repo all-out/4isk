@@ -37,6 +37,11 @@ class DropForeignKeys extends Migration {
             $table->dropForeign('characters_games_game_id_foreign');
             $table->dropForeign('characters_games_character_id_foreign');
         });
+        Schema::table('characters_roles', function(Blueprint $table)
+        {
+            $table->dropForeign('characters_roles_role_id_foreign');
+            $table->dropForeign('characters_roles_character_id_foreign');
+        });
         Schema::table('payouts', function(Blueprint $table)
         {
             $table->dropForeign('payouts_winner_id_foreign');

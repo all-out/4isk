@@ -14,10 +14,10 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="/deposits">Deposits</a></li>
-                <li><a href="/characters">Characters</a></li>
                 <li><a href="/games">Games</a></li>
+                <li><a href="/characters">Characters</a></li>
                 <li><a href="/payouts">Payouts</a></li>
+                <li><a href="/deposits">Deposits</a></li>
             </ul>
             @if (Auth::check())
                 @include('partials.nav.auth')
