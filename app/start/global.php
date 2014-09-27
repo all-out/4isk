@@ -16,7 +16,7 @@ ClassLoader::addDirectories(array(
 	app_path().'/commands',
 	app_path().'/controllers',
 	app_path().'/models',
-	app_path().'/database/seeds',
+    app_path().'/database/seeds',
 
 ));
 
@@ -74,7 +74,7 @@ App::down(function()
 |--------------------------------------------------------------------------
 |
 | Next we will load the filters file for the application. This gives us
-| a nice separate location to store our route and application filter
+| a nice separate location to store our route and application Filters
 | definitions instead of putting them all in the main routes file.
 |
 */

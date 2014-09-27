@@ -28,54 +28,50 @@ App::after(function($request, $response)
 |--------------------------------------------------------------------------
 |
 | The following filters are used to verify that the user of the current
-| session is logged into this application. The "basic" filter easily
+| session is logged into this application. The "basic" Filters easily
 | integrates HTTP Basic authentication for quick, simple checking.
 |
 */
 
-Route::filter('auth', function()
+Route::filter('role', function ($route, $request, $role)
 {
-	if (Auth::guest())
-	{
-		if (Request::ajax())
-		{
-			return Response::make('Unauthorized', 401);
-		}
-		else
-		{
-			return Redirect::guest('login');
-		}
-	}
-});
-
-Route::filter('role', function($route, $request, $role)
-{
-    if (Auth::guest())
+    if (!Auth::check())
     {
-        if (Request::ajax())
-        {
-            return Response::make('Unauthorized', 401);
-        }
-        else
-        {
-            Session::flash('warning', 'You must be logged in.');
-            return Redirect::guest('login');
-        }
+        Session::flash('warning', 'You must be logged in.');
+        return Redirect::route('login');
     }
-    else if (!Auth::user()->hasRole($role))
+    if (!Auth::user()->hasRole($role))
     {
-        if (Request::ajax())
-        {
-            return Response::make('Unauthorized', 401);
-        }
-        else
-        {
-            Session::flash('warning', 'You do not have the required permissions.');
-            return Redirect::back();
-        }
+        Session::flash('warning', 'You do not have the required permissions.');
+        return Redirect::home();
     }
 });
 
+Route::filter('self', function ($route, $request)
+{
+    if (Auth::user()->id != $route->parameters()['id'])
+    {
+        Session::flash('warning', 'This record does not belong to you.');
+        return Redirect::home();
+    }
+});
+
+Route::filter('self-or-role', function ($route, $request, $role)
+{
+    if (!Auth::check())
+    {
+        Session::flash('warning', 'You must be logged in.');
+        return Redirect::route('login');
+    }
+    if (Auth::user()->id != $route->parameters()['id'])
+    {
+        if (!Auth::user()->hasRole($role))
+        {
+            Session::flash('warning', 'You can only view your own records.');
+            return Redirect::home();
+        }
+    }
+});
 
 Route::filter('auth.basic', function()
 {
@@ -84,10 +80,10 @@ Route::filter('auth.basic', function()
 
 /*
 |--------------------------------------------------------------------------
-| Guest Filter
+| Guest Filters
 |--------------------------------------------------------------------------
 |
-| The "guest" filter is the counterpart of the authentication filters as
+| The "guest" Filters is the counterpart of the authentication filters as
 | it simply checks that the current user is not logged in. A redirect
 | response will be issued if they are, which you may freely change.
 |
@@ -100,10 +96,10 @@ Route::filter('guest', function()
 
 /*
 |--------------------------------------------------------------------------
-| CSRF Protection Filter
+| CSRF Protection Filters
 |--------------------------------------------------------------------------
 |
-| The CSRF filter is responsible for protecting your application against
+| The CSRF Filters is responsible for protecting your application against
 | cross-site request forgery attacks. If this special token in a user
 | session does not match the one given in this request, we'll bail.
 |
