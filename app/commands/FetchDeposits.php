@@ -19,7 +19,7 @@ class FetchDeposits extends ScheduledCommand {
 	 *
 	 * @var string
 	 */
-	protected $name = 'deposits:fetch';
+	protected $name = 'api:fetch-deposits';
 
 	/**
 	 * The console command description.
@@ -63,12 +63,13 @@ class FetchDeposits extends ScheduledCommand {
     /**
      * Check WalletJournal for new deposits and save to storage.
      *
-     * @param int $lastRefID The last entry on a "page", used to find the start of the next "page".
+     * @param int $lastRefID The last entry on a page of the WalletJournal, used to find the start of the next page.
+     * @return void
      */
     protected function saveNewDeposits($lastRefID = null)
     {
-        // Setup PhealNG and make a call to the WalletJournal endpoint to grab some entries.
-        Pheal\Core\Config::getInstance()->cache = new Pheal\Cache\FileStorage(app_path() . '/storage/cache/pheal/');
+        // Setup PhealNG and make a call to the Corporation's WalletJournal endpoint to grab some entries.
+        Config::get('phealng');
         $pheal = new Pheal(Config::get('phealng.keyID'), Config::get('phealng.vCode'));
         $query = $pheal->corpScope->WalletJournal(array(
             'fromID' => $lastRefID

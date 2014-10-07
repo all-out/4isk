@@ -5,6 +5,7 @@ class Role extends \Eloquent {
     protected $table = 'roles';
     protected $fillable = ['name'];
     public $timestamps = false;
+//    protected $visible = ['name'];
 
 	public static $rules = [
 	];

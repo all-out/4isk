@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="row">
-    <div class="col-sm-12">
+    <div class="col-sm-6">
         <h2>Character</h2>
         <img src="https://image.eveonline.com/Character/{{ $character->id }}_128.jpg" class="pull-left img-responsive" />
         <dl class="dl-horizontal pull-left">

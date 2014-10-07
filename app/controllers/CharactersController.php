@@ -114,9 +114,12 @@ class CharactersController extends \BaseController {
      */
     public function edit($id)
     {
-        $character = Character::find($id);
+        $character = Character::findOrFail($id);
+        $character->load('roles');
 
-        return View::make('characters.edit', compact('character'));
+        $roles = Role::all();
+
+        return View::make('characters.edit', compact('character', 'roles'));
     }
 
     /**
@@ -135,9 +138,11 @@ class CharactersController extends \BaseController {
             return Redirect::back()->withErrors($validator)->withInput();
         }
 
+        $character->roles()->sync($data['roles']);
         $character->update($data);
 
-        return Redirect::route('characters.index');
+        Session::flash('success', $character->name . '\'s record was updated.');
+        return Redirect::route('characters.edit', $id);
     }
 
     /**

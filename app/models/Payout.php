@@ -29,6 +29,15 @@ class Payout extends \Eloquent {
     }
 
     /**
+     * Query Scopes
+     */
+
+    public function scopeUnverified($query)
+    {
+        return $query->whereFulfilled(true)->whereVerified(false);
+    }
+
+    /**
      * Relationships
      */
     public function winner()

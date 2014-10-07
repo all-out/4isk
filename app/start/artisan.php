@@ -12,3 +12,4 @@
 */
 
 Artisan::add(new FetchDeposits);
+Artisan::add(new VerifyPayouts);

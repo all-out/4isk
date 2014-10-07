@@ -10,12 +10,12 @@ class Character extends \Eloquent implements UserInterface, RemindableInterface 
     use UserTrait, RemindableTrait;
 
     protected $table = 'characters';
-    protected $fillable = array('name', 'password');
-    protected $hidden = array('password');
+    protected $fillable = array('name', 'password', 'key_id', 'v_code');
+    protected $hidden = array('password', 'key_id', 'v_code');
 
     public static $rules = [
-        'name' => 'required|min:4|max:32',
-        'password' => 'required|min:4|max:32'
+        'name' => 'min:4|max:32',
+        'password' => 'min:4|max:32'
     ];
 
     /**
